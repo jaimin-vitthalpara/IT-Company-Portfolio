@@ -2,6 +2,8 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      python: 3.8  # optional
     commands:
       - echo "Installing updates and NGINX..."
       - apt-get update -y
@@ -10,18 +12,16 @@ phases:
   pre_build:
     commands:
       - echo "Preparing build directory..."
-      - echo Building started on `date`
       - mkdir -p build_output
-      - rm -rf /var/www/html/*
-  
+
   build:
     commands:
       - echo "Copying site files to build_output directory..."
-      - cp -r * build_output/
+      - cp -r about.html contact.html index.html portfolio.html price.html service.html css js img vendor build_output/
 
   post_build:
     commands:
-      - echo "Creating artifact ZIP..."
+      - echo "Creating ZIP artifact..."
       - cd build_output
       - zip -r ../website.zip .
       - cd ..
@@ -29,6 +29,4 @@ phases:
 
 artifacts:
   files:
-    - website.zip
-  name: 'my-website-artifact'  # This is where you can define a valid S3 key name
-  discard-paths: yes  # Optional: Discard the paths and just put the artifact as the file
+     - '**/*'
