@@ -30,3 +30,5 @@ phases:
 artifacts:
   files:
     - website.zip
+  name: 'my-website-artifact'  # This is where you can define a valid S3 key name
+  discard-paths: yes  # Optional: Discard the paths and just put the artifact as the file
