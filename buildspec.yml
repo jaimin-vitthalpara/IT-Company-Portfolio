@@ -1,0 +1,32 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Installing updates and NGINX..."
+      - apt-get update -y
+      - apt-get install nginx zip -y
+
+  pre_build:
+    commands:
+      - echo "Preparing build directory..."
+      - echo Building started on `date`
+      - mkdir -p build_output
+      - rm -rf /var/www/html/*
+  
+  build:
+    commands:
+      - echo "Copying site files to build_output directory..."
+      - cp -r * build_output/
+
+  post_build:
+    commands:
+      - echo "Creating artifact ZIP..."
+      - cd build_output
+      - zip -r ../website.zip .
+      - cd ..
+      - echo "Build and ZIP complete."
+
+artifacts:
+  files:
+    - website.zip
