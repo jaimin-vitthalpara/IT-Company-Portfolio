@@ -1,4 +1,4 @@
-version: 0.2
+version: 1.0
 
 phases:
   install:
@@ -16,7 +16,6 @@ phases:
     commands:
       - echo "Copying site files to build_output directory..."
       - cp -r about.html contact.html index.html portfolio.html price.html service.html css js img vendor build_output/
-      - cp -r scripts/ build_output/  # Ensure the scripts folder is included in the build artifact
 
   post_build:
     commands:
@@ -28,4 +27,5 @@ phases:
 
 artifacts:
   files:
-     - '**/*'
+    - '**/*'
+

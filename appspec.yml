@@ -1,22 +1,21 @@
 version: 0.0
 os: linux
-
 files:
-  - source: /website.zip               # The ZIP file created by CodeBuild
-    destination: /tmp/website.zip       # This is where CodeDeploy will place the ZIP file on the EC2 instance
+  - source: /
+    destination: /var/www/html
 
 hooks:
-  BeforeInstall:
-    - location: /tmp/scripts/install_nginx.sh    # Correct path after extraction
-      timeout: 300
-      runas: root
-
   AfterInstall:
-    - location: /tmp/scripts/unzip_website.sh    # Correct path after extraction
+    - location: scripts/after_install.sh
       timeout: 180
       runas: root
 
   ApplicationStart:
-    - location: /tmp/scripts/start_nginx.sh      # Correct path after extraction
+    - location: scripts/start_server.sh
+      timeout: 180
+      runas: root
+
+  ValidateService:
+    - location: scripts/validate.sh
       timeout: 180
       runas: root
