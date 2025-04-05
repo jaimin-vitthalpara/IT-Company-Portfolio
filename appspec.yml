@@ -1,14 +1,22 @@
 version: 0.0
 os: linux
+
 files:
-  - source: /
-    destination: /var/www/html
+  - source: /website.zip       # The ZIP artifact created by CodeBuild
+    destination: /tmp/website.zip  # Store the ZIP artifact in /tmp on EC2 instance
+
 hooks:
-  AfterInstall:
-    - location: scripts/after_install.sh
+  BeforeInstall:
+    - location: scripts/install_nginx.sh   # Install NGINX
       timeout: 300
       runas: root
+
+  AfterInstall:
+    - location: scripts/unzip_website.sh   # Unzip the website.zip file
+      timeout: 180
+      runas: root
+
   ApplicationStart:
-    - location: scripts/start_server.sh
-      timeout: 300
+    - location: scripts/start_nginx.sh    # Start NGINX
+      timeout: 180
       runas: root
