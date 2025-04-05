@@ -2,21 +2,21 @@ version: 0.0
 os: linux
 
 files:
-  - source: /website.zip       # The ZIP artifact created by CodeBuild
-    destination: /tmp/website.zip  # Store the ZIP artifact in /tmp on EC2 instance
+  - source: /website.zip               # The ZIP file created by CodeBuild
+    destination: /tmp/website.zip       # This is where CodeDeploy will place the ZIP file on the EC2 instance
 
 hooks:
   BeforeInstall:
-    - location: scripts/install_nginx.sh   # Install NGINX
+    - location: /tmp/scripts/install_nginx.sh    # Correct path after extraction
       timeout: 300
       runas: root
 
   AfterInstall:
-    - location: scripts/unzip_website.sh   # Unzip the website.zip file
+    - location: /tmp/scripts/unzip_website.sh    # Correct path after extraction
       timeout: 180
       runas: root
 
   ApplicationStart:
-    - location: scripts/start_nginx.sh    # Start NGINX
+    - location: /tmp/scripts/start_nginx.sh      # Correct path after extraction
       timeout: 180
       runas: root
